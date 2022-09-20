@@ -1,8 +1,14 @@
 class TicTacToe {
-  constructor() {
-    this.player1 = "X";
-    this.player2 = "O";
-    this.currentPlayer = this.player1;
+  constructor(player1, player2) {
+    this.player1 = {
+      name: player1,
+      label: "X",
+    };
+    this.player2 = {
+      name: player2,
+      label: "O",
+    };
+    this.currentPlayer = this.player1.label;
     this.board = [
       ["", "", ""],
       ["", "", ""],
@@ -14,7 +20,7 @@ class TicTacToe {
 
     this.container = document.getElementById("root");
 
-    this.container.appendChild(this.render())
+    this.container.appendChild(this.render());
   }
 
   /**
@@ -80,15 +86,15 @@ class TicTacToe {
 
     this.board[rowIndex][cellIndex] = this.currentPlayer;
 
-    this.checkForWinner()
-    if(this.winner) {
+    this.checkForWinner();
+    if (this.winner) {
       this.container.innerHTML = "";
       this.container.appendChild(this.renderResult());
       return;
     }
 
     this.currentPlayer =
-      this.currentPlayer === this.player1 ? this.player2 : this.player1;
+      this.currentPlayer === this.player1.label ? this.player2.label : this.player1.label;
   }
 
   /**
@@ -152,12 +158,12 @@ class TicTacToe {
       const cellBValue = this.board[rowB][cellB];
       const cellCValue = this.board[rowC][cellC];
 
-      if(!(cellAValue && cellBValue && cellCValue)) {
+      if (!(cellAValue && cellBValue && cellCValue)) {
         return;
       }
 
       if (cellAValue === cellBValue && cellBValue === cellCValue) {
-        this.winner = cellAValue;
+        this.winner = this.player1.label === cellAValue ? this.player1.name : this.player2.name;
         this.gameOver = true;
       }
     });
