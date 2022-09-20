@@ -56,6 +56,7 @@ class TicTacToe {
     const result = document.createElement("div");
     result.classList.add("result");
     const resetButton = document.createElement("button");
+    resetButton.classList.add('btn')
     resetButton.textContent = "Play again";
     resetButton.addEventListener("click", this.resetGame.bind(this));
     const winner = document.createElement("h2");

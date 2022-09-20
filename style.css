@@ -3,6 +3,20 @@
   src: url("./fonts/BungeeSpice-Regular.ttf");
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 1em 1.4em;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -43,10 +57,40 @@
 }
 
 .result button {
-  padding: 1em 1.4em;
-  font-size: 20px;
-  cursor: pointer;
   background-color: white;
   color: black;
-  font-weight: 600;
+}
+
+#players {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 40px rgba(6, 6, 40, 0.138);
+}
+
+#players h1 {
+  margin-bottom: 4rem;
+}
+
+#players input {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 1.4rem;
+  padding: 1rem;
+}
+
+#start {
+  display: block;
+  margin: 0 auto;
+  background-color: orange;
+}
+
+.hidden {
+  display: none !important;
 }
