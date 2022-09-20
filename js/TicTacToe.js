@@ -87,14 +87,16 @@ class TicTacToe {
     this.board[rowIndex][cellIndex] = this.currentPlayer;
 
     this.checkForWinner();
-    if (this.winner) {
+    if (this.winner || this.checkForTie()) {
       this.container.innerHTML = "";
       this.container.appendChild(this.renderResult());
       return;
     }
 
     this.currentPlayer =
-      this.currentPlayer === this.player1.label ? this.player2.label : this.player1.label;
+      this.currentPlayer === this.player1.label
+        ? this.player2.label
+        : this.player1.label;
   }
 
   /**
@@ -163,10 +165,17 @@ class TicTacToe {
       }
 
       if (cellAValue === cellBValue && cellBValue === cellCValue) {
-        this.winner = this.player1.label === cellAValue ? this.player1.name : this.player2.name;
+        this.winner =
+          this.player1.label === cellAValue
+            ? this.player1.name
+            : this.player2.name;
         this.gameOver = true;
       }
     });
+  }
+
+  checkForTie() {
+    return this.board.every((e) => e.every(n => n !== ""));
   }
 }
 
