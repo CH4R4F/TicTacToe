@@ -41,3 +41,12 @@
   font-size: 30px;
   text-align: center;
 }
+
+.result button {
+  padding: 1em 1.4em;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  font-weight: 600;
+}

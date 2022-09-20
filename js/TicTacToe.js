@@ -57,6 +57,7 @@ class TicTacToe {
     result.classList.add("result");
     const resetButton = document.createElement("button");
     resetButton.textContent = "Play again";
+    resetButton.addEventListener("click", this.resetGame.bind(this));
     const winner = document.createElement("h2");
     winner.textContent = this.winner
       ? `the winner is ${this.winner}`
@@ -175,7 +176,20 @@ class TicTacToe {
   }
 
   checkForTie() {
-    return this.board.every((e) => e.every(n => n !== ""));
+    return this.board.every((e) => e.every((n) => n !== ""));
+  }
+
+  resetGame() {
+    this.board = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ];
+    this.winner = null;
+    this.gameOver = false;
+
+    this.container.innerHTML = "";
+    this.container.appendChild(this.render());
   }
 }
 
