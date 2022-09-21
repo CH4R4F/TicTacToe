@@ -59,6 +59,10 @@
 .result button {
   background-color: white;
   color: black;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 1rem;
 }
 
 #players {
@@ -86,9 +90,28 @@
 }
 
 #start {
-  display: block;
-  margin: 0 auto;
   background-color: orange;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#leaderboardBtn {
+  border: 3px solid #000;
+  background: transparent;
+  transition: .2s ease-in-out;
+}
+
+#leaderboardBtn:hover {
+  background: #000;
+  color: #fff;
+}
+
+.leaderboard {
+  width: 100%;
 }
 
 .hidden {

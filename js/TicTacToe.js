@@ -19,8 +19,6 @@ class TicTacToe {
     this.gameOver = false;
 
     this.container = document.getElementById("root");
-
-    this.container.appendChild(this.render());
   }
 
   /**
@@ -45,7 +43,7 @@ class TicTacToe {
       });
     });
 
-    return gameBoard;
+    this.container.appendChild(gameBoard);
   }
 
   /**
@@ -55,15 +53,23 @@ class TicTacToe {
   renderResult() {
     const result = document.createElement("div");
     result.classList.add("result");
+    // reset button
     const resetButton = document.createElement("button");
-    resetButton.classList.add('btn')
+    resetButton.classList.add("btn");
     resetButton.textContent = "Play again";
     resetButton.addEventListener("click", this.resetGame.bind(this));
+    // leader board buton
+    const leaderboardButton = document.createElement("button");
+    leaderboardButton.classList.add("btn");
+    leaderboardButton.textContent = "Leaderboard";
+    leaderboardButton.addEventListener("click", this.showLeaderBoard.bind(this));
+
     const winner = document.createElement("h2");
     winner.textContent = this.winner ? `the winner is ${this.winner}` : "Tie :) Good game";
 
     result.appendChild(winner);
     result.appendChild(resetButton);
+    result.appendChild(leaderboardButton);
 
     return result;
   }
@@ -190,14 +196,17 @@ class TicTacToe {
     this.gameOver = false;
 
     this.container.innerHTML = "";
-    this.container.appendChild(this.render());
+    this.render();
   }
 
+  /**
+   * @returns {void} saves the game to the local storage
+   */
   saveGame() {
     let game = JSON.parse(localStorage.getItem("status")) || {};
-    if(this.winner) {
+    if (this.winner) {
       const looser = this.winner === this.player1.name ? this.player2.name : this.player1.name;
-      
+
       // winner data
       if (game[this.winner]) {
         game[this.winner].wins++;
@@ -209,7 +218,7 @@ class TicTacToe {
           games: 1,
         };
       }
-  
+
       // looser data
       if (game[looser]) {
         game[looser].lost++;
@@ -223,29 +232,72 @@ class TicTacToe {
       }
     } else {
       // add game for player1
-      if(game[this.player1.name]) {
-        game[this.player1.name].games++
+      if (game[this.player1.name]) {
+        game[this.player1.name].games++;
       } else {
         game[this.player1.name] = {
           wins: 0,
           lost: 0,
-          games: 1
-        }
+          games: 1,
+        };
       }
 
       // add game for player2
-      if(game[this.player2.name]) {
-        game[this.player2.name].games++
+      if (game[this.player2.name]) {
+        game[this.player2.name].games++;
       } else {
         game[this.player2.name] = {
           wins: 0,
           lost: 0,
-          games: 1
-        }
+          games: 1,
+        };
       }
     }
-    console.log(game);
     localStorage.setItem("status", JSON.stringify(game));
+  }
+
+  showLeaderBoard() {
+    let { ...players } = JSON.parse(localStorage.getItem("status")) || {};
+    players = Object.entries(players);
+    const table = document.createElement("table");
+    table.classList.add("leaderboard");
+    const thead = `
+        <thead>
+          <tr>
+            <td>Username</td>
+            <td>Games</td>
+            <td>Wins</td>
+            <td>Lost</td>
+            <td>Win Rate</td>
+          </tr>
+        </thead>
+    `;
+    table.insertAdjacentHTML("afterbegin", thead);
+
+    if (players.length <= 0) {
+      const n = `
+        <h2 style="align-text: center; margin-top: 2rem"> There is no record saved yet, Try playing a game </h2>
+      `;
+      table.insertAdjacentHTML("afterend", n);
+      return;
+    }
+
+    const tbody = document.createElement("tbody");
+    players.forEach(([player, stats]) => {
+      const dataRow = `
+        <tr>
+          <td>${player}</td>
+          <td>${stats.games}</td>
+          <td>${stats.wins}</td>
+          <td>${stats.lost}</td>
+          <td>${(stats.wins / stats.games) * 100} %</td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML("beforeend", dataRow);
+    });
+    this.container.innerHTML = "";
+    table.appendChild(tbody);
+    this.container.appendChild(table);
   }
 }
 
